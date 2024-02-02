@@ -1,5 +1,6 @@
 package org.example.quizapppractice.service;
 
+import org.example.quizapppractice.dao.QuestionDao;
 import org.example.quizapppractice.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
