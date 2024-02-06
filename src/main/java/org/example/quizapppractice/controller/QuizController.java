@@ -2,6 +2,7 @@ package org.example.quizapppractice.controller;
 
 import org.example.quizapppractice.model.Question;
 import org.example.quizapppractice.model.QuestionWrapper;
+import org.example.quizapppractice.model.Response;
 import org.example.quizapppractice.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,5 +37,15 @@ public class QuizController {
             e.printStackTrace();
         }
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("submit/{id}")
+    public ResponseEntity<Integer> submitQuiz (@PathVariable(value = "id") int id, @RequestBody List<Response> responses) {
+        try {
+            return quizService.calculateResult(id, responses);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
     }
 }

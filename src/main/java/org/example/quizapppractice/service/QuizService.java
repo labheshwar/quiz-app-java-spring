@@ -5,6 +5,7 @@ import org.example.quizapppractice.dao.QuizDao;
 import org.example.quizapppractice.model.Question;
 import org.example.quizapppractice.model.QuestionWrapper;
 import org.example.quizapppractice.model.Quiz;
+import org.example.quizapppractice.model.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,5 +45,17 @@ public class QuizService {
             questionsForUser.add(qw);
         }
         return new ResponseEntity<>(questionsForUser, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Integer>  calculateResult(Integer id, List<Response> responses) {
+        Optional<Quiz> quiz = quizDao.findById(id);
+        List<Question> questionsFromDb = quiz.get().getQuestions();
+        int right = 0;
+        for (int i = 0; i<responses.size(); i++) {
+            if (responses.get(i).getResponse().equals(questionsFromDb.get(i).getRightAnswer())) {
+                right++;
+            }
+        }
+        return new ResponseEntity<>(right, HttpStatus.OK);
     }
 }
